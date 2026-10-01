@@ -224,3 +224,5 @@ tempCodeRunnerFile.py
 # Marimo
 marimo/_static/
 marimo/_lsp/
+DATA/
+embedding_progress.json
