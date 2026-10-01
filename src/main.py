@@ -25,11 +25,11 @@ logfire.info('Hello, {place}!', place='World')
 
 
 
-from src.ingestion.processor import load_documents_from_directory
-from src.ingestion.chuncking.chunker import safe_chunk_documents
-from src.ingestion.retrival.embedder import embed_chunks_resumable
-from src.models.main import get_gemini_embedder
-from src.ingestion.vectorstore.qdrant import store_documents_in_qdrant, load_existing_qdrant_store
+# from src.ingestion.processor import load_documents_from_directory
+# from src.ingestion.chuncking.chunker import safe_chunk_documents
+# from src.ingestion.retrival.embedder import embed_chunks_resumable
+# from src.models.main import get_gemini_embedder
+# from src.ingestion.vectorstore.qdrant import store_documents_in_qdrant, load_existing_qdrant_store
 
 # docs=load_documents_from_directory(r"DATA\true_data", recursive=True)
 
@@ -64,19 +64,24 @@ from src.ingestion.vectorstore.qdrant import store_documents_in_qdrant, load_exi
 #     print(f"Content: {doc.page_content[:150]}...")
 #     print(f"Metadata: {doc.metadata}")
 
-from src.ingestion.processor import run_ingestion_pipeline
+# from src.ingestion.processor import run_ingestion_pipeline
+
+# if __name__ == "__main__":
+#     # Execute integrated pipeline
+#     result = run_ingestion_pipeline(
+#         data_directory=r"DATA\noisy_data",
+#         collection_name="rag_documents",
+#         chunk_size=1000,
+#         chunk_overlap=200,
+#         batch_size=10,
+#         recursive=True,
+#     )
+
+#     print("\n--- Pipeline Execution Summary ---")
+#     for key, value in result.items():
+#         print(f"{key}: {value}")
+
+from src.agents.main import main
 
 if __name__ == "__main__":
-    # Execute integrated pipeline
-    result = run_ingestion_pipeline(
-        data_directory=r"DATA\noisy_data",
-        collection_name="rag_documents",
-        chunk_size=1000,
-        chunk_overlap=200,
-        batch_size=10,
-        recursive=True,
-    )
-
-    print("\n--- Pipeline Execution Summary ---")
-    for key, value in result.items():
-        print(f"{key}: {value}")
+    main()
