@@ -15,7 +15,7 @@ def main():
     
     
     
-    test_1_input = create_initial_state(question="Hello! How are you doing today?")
+    test_1_input = create_initial_state(question="what is kubernaties and how does it work?")
     
     print("\n--- Test 1: Casual Greeting ---")
     output_1 = agent.invoke(test_1_input)

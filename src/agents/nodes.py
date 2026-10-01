@@ -11,6 +11,9 @@ from src.agents.state import AgentState
 from src.ingestion.vectorstore.qdrant import load_existing_qdrant_store
 from src.config import Config
 
+from flashrank import Ranker, RerankRequest
+from src.models.main import ranker  # Import the ranker instance from models/main.py    
+
 
 
 class RouteQueryResponse(BaseModel):
@@ -88,7 +91,7 @@ def retrieve_node(
         )
 
         # Retrieve top-k documents
-        docs = vector_store.similarity_search(query=question, k=4)
+        docs = vector_store.similarity_search(query=question, k=8)
         logfire.info("Retrieved Documents", count=len(docs))
 
         return {"documents": docs}
@@ -138,3 +141,32 @@ def end_node(state: AgentState) -> Dict[str, Any]:
     return {
         "messages": [AIMessage(content=generation)]
     }
+
+
+
+
+def rerank_node(state: AgentState):
+    question = state["question"]
+    raw_docs = state["documents"]  # e.g., 20 retrieved docs from Qdrant
+    
+    if not raw_docs:
+        return {"documents": []}
+    
+    # Format documents for FlashRank
+    passages = [
+        {"id": idx, "text": doc.page_content, "meta": doc.metadata}
+        for idx, doc in enumerate(raw_docs)
+    ]
+    
+    rerank_request = RerankRequest(query=question, passages=passages)
+    results = ranker.rerank(rerank_request)
+    
+    # Select top 4 highest scoring documents
+    top_results = results[:4]
+    
+    # Map back to standard Document format
+    reranked_docs = [
+        raw_docs[item["id"]] for item in top_results
+    ]
+    
+    return {"documents": reranked_docs}

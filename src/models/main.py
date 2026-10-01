@@ -7,6 +7,7 @@ from typing import List
 from tenacity import retry, stop_after_attempt, wait_exponential
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_groq import ChatGroq
+from flashrank import Ranker
 
 
 
@@ -73,5 +74,10 @@ def get_groq_llm(model_name: str = "openai/gpt-oss-120b") -> ChatGroq:
         groq_api_key=api_key,
         temperature=0.2,
     )
+
+
+
+# Initialize local lightweight CPU reranker model
+ranker = Ranker(model_name="ms-marco-TinyBERT-L-2-v2")
 
 

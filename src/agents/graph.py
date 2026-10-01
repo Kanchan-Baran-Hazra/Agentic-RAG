@@ -6,6 +6,7 @@ from src.agents.nodes import (
     start_node,
     route_node,
     retrieve_node,
+    rerank_node,
     generate_node,
     end_node,
 )
@@ -31,6 +32,7 @@ def build_rag_graph(
         qdrant_path=qdrant_path,
     )
     workflow.add_node("retrieve", retrieve_fn)
+    workflow.add_node("rerank", rerank_node)
     workflow.add_node("generate", generate_node)
     workflow.add_node("end", end_node)
 
@@ -48,7 +50,8 @@ def build_rag_graph(
     )
 
     # Sequential Edges
-    workflow.add_edge("retrieve", "generate")
+    workflow.add_edge("retrieve", "rerank")
+    workflow.add_edge("rerank", "generate")
     workflow.add_edge("generate", "end")
     workflow.add_edge("end", END)
 

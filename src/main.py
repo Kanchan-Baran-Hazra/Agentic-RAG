@@ -81,7 +81,7 @@ logfire.info('Hello, {place}!', place='World')
 #     for key, value in result.items():
 #         print(f"{key}: {value}")
 
-from src.agents.main import main
+# from src.agents.main import main
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
