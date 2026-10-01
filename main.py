@@ -1,6 +1,6 @@
-def main():
-    print("Hello from zzzmarathon!")
+import logfire
 
+logfire.configure()
+logfire.instrument_system_metrics()
+logfire.info('Hello, {place}!', place='World')
 
-if __name__ == "__main__":
-    main()
